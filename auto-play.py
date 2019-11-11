@@ -52,8 +52,8 @@ class AdbManager:
 		self.host, self.port = UserConfig['adb']['host'], UserConfig['adb']['port']
 		os.system('adb connect {host}:{port}'.format(host=self.host, port=self.port))
 	def screenshot(self):
-	    os.system('adb shell screencap /data/{fn}'.format(fn=SystemConfig['match']['capture']['file']))
-	    os.system('adb pull /data/{fn} {to}'.format(fn=SystemConfig['match']['capture']['file'], to=SystemConfig['match']['capture']['dir']))
+	    os.system('adb shell screencap /storage/emulated/0/{fn}'.format(fn=SystemConfig['match']['capture']['file']))
+	    os.system('adb pull /storage/emulated/0/{fn} {to}'.format(fn=SystemConfig['match']['capture']['file'], to=SystemConfig['match']['capture']['dir']))
 	    return '{dir}/{fn}'.format(dir=SystemConfig['match']['capture']['dir'], fn=SystemConfig['match']['capture']['file'])
 	def click(self, pos):
 		os.system('adb shell input tap {x} {y}'.format(x=pos[0], y=pos[1]))
