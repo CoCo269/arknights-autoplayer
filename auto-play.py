@@ -19,17 +19,26 @@ SystemConfig = {
 			'bgB' : 'bgB.png',
 			'end' : 'end.png',
 			'lvp' : 'lvp.png',
-			'rcv' : 'rcv.png', # TODO: 仅限理智药水
+			# 仅限理智药水
+			'rcv' : 'rcv.png', 
 		}, 
+		# TODO: 联动事件机制待完善
 		'case-after' : {
 			'rcv' : 'rcv-bt.png',
+		},
+		'case-rate' : {
+			'bgA.png' : 0.8,
+			'bgB.png' : 0.75,
+			'end.png' : 0.7,
+			'lvp.png' : 0.7,
+			'rcv.png' : 0.7,
+			'rcv-bt.png' : 0.8,
 		},
 		'case-end' : 'end',
 		'capture' : {
 			'dir' : './tmp',
 			'file' : 'arknights-screen.png',
 		},
-		'case-rate' : 0.6,
 	},
 	'default' : {
 		'screen' : {
@@ -38,7 +47,7 @@ SystemConfig = {
 		},
 	},
 	'clock' : {
-		'interval' : 3,
+		'interval' : (1, 5),
 	}
 }
 
@@ -83,11 +92,12 @@ class MatchHandler:
 			return evt, tuple(map((lambda x:int(szrate*x)), self.__genRandomPosInBox(poslu, plus)))
 		return None, None
 	def __checkAndGetMatchPosLeftUp(self, screen, evtfn):
+		mrate = SystemConfig['match']['case-rate'][evtfn]
 		evtfn = '{dir}/{fn}'.format(dir=SystemConfig['match']['case-path'], fn=evtfn)
 		tmpt = cv2.imread(evtfn, self.READ_MODE[0])
 		mtres = cv2.matchTemplate(screen, tmpt, cv2.TM_CCOEFF_NORMED)
 		min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(mtres)
-		return (None, None) if max_val < SystemConfig['match']['case-rate'] else (max_loc, (tmpt.shape[1], tmpt.shape[0]))
+		return (None, None) if max_val < mrate else (max_loc, (tmpt.shape[1], tmpt.shape[0]))
 	def __resizeToDefault(self, img):
 		th, tw = SystemConfig['default']['screen']['height'], SystemConfig['default']['screen']['weight']
 		return cv2.resize(img, (tw, th), interpolation = cv2.INTER_AREA)
@@ -99,6 +109,9 @@ def Prepare():
 		raise Exception('Can\' find <case-path> in configuration ...')
 	if not os.path.exists(SystemConfig['match']['capture']['dir']):
 		os.mkdir(SystemConfig['match']['capture']['dir'])
+
+def RandRangeFloat(x, y):
+	return random.random()*(y-x)+x
 
 if __name__ == '__main__':
 	# 准备执行环境
@@ -121,7 +134,7 @@ if __name__ == '__main__':
 				LogN('No <{nid}> task finished ...'.format(nid=cot))
 				if cot >= UserConfig['task']['loop']:
 					break
-			time.sleep(SystemConfig['clock']['interval'])
+			time.sleep(RandRangeFloat(*SystemConfig['clock']['interval']))
 	except Exception as err:
 		LogE('Task break off because errors...')
 		traceback.print_exc()
