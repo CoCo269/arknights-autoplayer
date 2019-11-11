@@ -10,14 +10,14 @@ def resizeToDefault(img):
 	return cv2.resize(img, (tw, th), interpolation = cv2.INTER_AREA)
 #################################
 
-os.system('adb connect {host}:{port}'.format(host='127.0.0.1', port=7555))
-os.system('adb shell screencap /data/arknights-screen.png')
-os.system('adb pull /data/arknights-screen.png {to}'.format(to='./tmp/arknights-screen.png'))
+# os.system('adb connect {host}:{port}'.format(host='127.0.0.1', port=7555))
+# os.system('adb shell screencap /data/arknights-screen.png')
+# os.system('adb pull /data/arknights-screen.png {to}'.format(to='./tmp/arknights-screen.png'))
 
 img = cv2.imread('./tmp/arknights-screen.png', READ_MODE[0])
 img = resizeToDefault(img)
 
-tmp = cv2.imread('./case-img/end.png', READ_MODE[0])
+tmp = cv2.imread('./case-img/lvp.png', READ_MODE[0])
 
 mres = cv2.matchTemplate(img, tmp, cv2.TM_CCOEFF_NORMED)
 

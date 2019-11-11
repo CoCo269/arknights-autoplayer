@@ -18,7 +18,7 @@ SystemConfig = {
 			'bgA' : 'bgA.png',
 			'bgB' : 'bgB.png',
 			'end' : 'end.png',
-			# 'lvp' : 'lvp.png',
+			'lvp' : 'lvp.png',
 			'rcv' : 'rcv.png', # TODO: 仅限理智药水
 		}, 
 		'case-after' : {
