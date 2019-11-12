@@ -74,7 +74,7 @@ class MatchHandler:
 		self.READ_MODE = (cv2.IMREAD_GRAYSCALE, cv2.IMREAD_COLOR, cv2.IMREAD_UNCHANGED)
 	def mapToPos(self, imgfn):
 		if not os.path.exists(imgfn):
-			LogW('screenshot file \{{fn}\} no exists ...'.format(fn=imgfn))
+			LogW('screenshot file {{{fn}}} no exists ...'.format(fn=imgfn))
 			return None, None
 		screen = cv2.imread(imgfn, self.READ_MODE[0])
 		rh, rw = screen.shape[:2]
@@ -97,7 +97,10 @@ class MatchHandler:
 		tmpt = cv2.imread(evtfn, self.READ_MODE[0])
 		mtres = cv2.matchTemplate(screen, tmpt, cv2.TM_CCOEFF_NORMED)
 		min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(mtres)
-		return (None, None) if max_val < mrate else (max_loc, (tmpt.shape[1], tmpt.shape[0]))
+		if max_val >= mrate:
+			LogN('Template image {{{fn}}} match rate is <{rate}/{limit}> ...'.format(fn=evtfn, rate=max_val, limit=mrate)) 
+			return max_loc, (tmpt.shape[1], tmpt.shape[0])
+		return None, None
 	def __resizeToDefault(self, img):
 		th, tw = SystemConfig['default']['screen']['height'], SystemConfig['default']['screen']['weight']
 		return cv2.resize(img, (tw, th), interpolation = cv2.INTER_AREA)
