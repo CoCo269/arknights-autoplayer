@@ -17,7 +17,7 @@ os.system('adb pull /storage/emulated/0/arknights-screen.png {to}'.format(to='./
 img = cv2.imread('./tmp/arknights-screen.png', READ_MODE[0])
 img = resizeToDefault(img)
 
-tmp = cv2.imread('./case-img/bgA.png', READ_MODE[0])
+tmp = cv2.imread('./case-img/rcv-bt.png', READ_MODE[0])
 
 mres = cv2.matchTemplate(img, tmp, cv2.TM_CCOEFF_NORMED)
 
