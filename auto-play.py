@@ -20,11 +20,13 @@ SystemConfig = {
 			'end' : 'end.png',
 			'lvp' : 'lvp.png',
 			# 仅限理智药水
-			'rcvA' : 'rcvA.png',
-			'rcvB' : 'rcvB.png',
+			'rcv' : 'rcv.png',
+			# 'rcvA' : 'rcvA.png',
+			# 'rcvB' : 'rcvB.png',
 		}, 
 		# TODO: 联动事件机制待完善
 		'case-after' : {
+			'rcv'  : 'rcv-bt.png',
 			'rcvA' : 'rcv-bt.png',
 			'rcvB' : 'rcv-bt.png',
 		},
@@ -33,6 +35,7 @@ SystemConfig = {
 			'bgB.png' : 0.75,
 			'end.png' : 0.7,
 			'lvp.png' : 0.7,
+			'rcv.png' : 0.7,
 			'rcvA.png' : 0.7,
 			'rcvB.png' : 0.7,
 			'rcv-bt.png' : 0.8,
